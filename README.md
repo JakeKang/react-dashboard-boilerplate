@@ -1,10 +1,16 @@
-# React + Vite + TailwindCSS 대시보드 프로젝트 가이드
+# React + Vite + TailwindCSS + Shadcn 대시보드 프로젝트 가이드
 
 ## 목차
 
 1. [빠른 시작](#빠른-시작)
 2. [전체 설정 가이드](#전체-설정-가이드)
-3. [사용된 패키지 설명](#사용된-패키지-설명)
+3. [Shadcn 설치 및 설정](#shadcn-설치-및-설정)
+4. [사용된 패키지 설명](#사용된-패키지-설명)
+5. [TypeScript 설정 상세](#typescript-설정-상세)
+6. [ESLint 및 Prettier 설정](#eslint-및-prettier-설정)
+7. [개발 환경 설정 팁](#개발-환경-설정-팁)
+
+---
 
 ## 빠른 시작
 
@@ -21,6 +27,8 @@ bun install
 # 개발 서버 실행
 bun dev
 ```
+
+---
 
 ## 전체 설정 가이드
 
@@ -47,21 +55,70 @@ bun install
 # TailwindCSS 관련 패키지 설치
 bun add -d tailwindcss postcss autoprefixer prettier
 
-# 추가 패키지 설치
-bun add @headlessui/react @heroicons/react react-router-dom chart.js react-chartjs-2
+# 추가 패키지 설치 (Shadcn, React Router, Chart.js 등)
+bun add @heroicons/react react-router-dom chart.js react-chartjs-2 lucide-react
 ```
 
-### 4. TailwindCSS 설정
+---
+
+## Shadcn 설치 및 설정
+
+### 1. Shadcn 초기화
+
+Shadcn은 컴포넌트 코드를 직접 복사하여 사용하는 방식입니다. 이를 위해 `shadcn` CLI를 사용하여 필요한 컴포넌트를 추가할 수 있습니다.
+
+```bash
+npx shadcn@latest init
+```
+
+이 명령어는 프로젝트에 Shadcn을 초기화하여 사용할 준비를 완료합니다.
+
+### 2. Shadcn 컴포넌트 추가
+
+필요한 컴포넌트를 추가할 수 있습니다. 예를 들어, 버튼 컴포넌트를 추가하려면 다음 명령어를 실행합니다:
+
+```bash
+npx shadcn@latest add button
+```
+
+이 명령어는 `src/components/ui/button.tsx` 파일에 버튼 컴포넌트 코드를 생성합니다.
+
+#### 버튼 컴포넌트 사용 예시:
+
+```tsx
+import React from 'react';
+import { Button } from './components/ui/button';
+
+function App() {
+  return (
+    <div className='App'>
+      <h1 className='text-3xl font-bold underline'>Hello world!</h1>
+      <Button variant='primary'>Click Me!</Button>
+    </div>
+  );
+}
+
+export default App;
+```
+
+---
+
+## TailwindCSS 설정
+
+TailwindCSS는 Shadcn과 함께 사용되며, Tailwind의 유틸리티 클래스를 통해 UI 스타일링을 쉽게 할 수 있습니다.
+
+### TailwindCSS 초기화:
 
 ```bash
 npx tailwindcss init -p
 ```
 
-tailwind.config.js:
+### tailwind.config.js 설정:
 
 ```typescript
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: ['class'],
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
@@ -75,7 +132,17 @@ export default {
 };
 ```
 
-### 5. 프로젝트 구조
+### src/index.css 또는 src/App.css:
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+---
+
+## 프로젝트 구조
 
 ```
 react-tailwind-dashboard/
@@ -83,25 +150,24 @@ react-tailwind-dashboard/
 │   ├── components/
 │   │   ├── charts/
 │   │   └── ui/
+│   │       └── button.tsx (Shadcn에서 추가한 버튼 컴포넌트)
 │   ├── layouts/
 │   │   └── DashboardLayout.tsx
 │   ├── pages/
-│   ├── App.tsx
-│   └── main.tsx
+│   ├── App.tsx (루트 컴포넌트)
+│   └── main.tsx (엔트리 포인트)
 ├── public/
-├── index.html
-├── package.json
-├── tailwind.config.js
-├── postcss.config.js
-├── tsconfig.json
-└── vite.config.ts
+├── index.html (HTML 템플릿)
+├── package.json (프로젝트 설정 파일)
+├── tailwind.config.js (TailwindCSS 설정 파일)
+├── postcss.config.js (PostCSS 설정 파일)
+├── tsconfig.json (TypeScript 기본 설정 파일)
+└── vite.config.ts (Vite 설정 파일)
 ```
 
+---
+
 ## 사용된 패키지 설명
-
-### @headlessui/react
-
-접근성이 고려된 UI 컴포넌트 라이브러리로, TailwindCSS와 완벽하게 통합됩니다.
 
 ### @heroicons/react
 
@@ -121,22 +187,8 @@ React 애플리케이션의 라우팅을 관리하는 표준 라이브러리입�
 
 ### chart.js와 react-chartjs-2
 
-- **chart.js**: 반응형 차트 라이브러리
-- **react-chartjs-2**: Chart.js의 React 래퍼
-
-## Bun 주요 명령어
-
-- `bun add <패키지명>`: 패키지 설치
-- `bun remove <패키지명>`: 패키지 제거
-- `bun install`: 모든 의존성 설치
-- `bun dev`: 개발 서버 실행
-- `bun run build`: 프로덕션 빌드
-
-## 참고사항
-
-- 개발 서버는 기본적으로 `http://localhost:5173`에서 실행됩니다.
-- Bun은 npm 대비 최대 25배 빠른 설치 속도를 제공합니다.
-- `bun.lockb` 파일은 바이너리 형식의 lockfile로, 더 빠른 파싱 속도를 제공합니다.
+- **chart.js**: 반응형 차트 라이브러리.
+- **react-chartjs-2**: Chart.js의 React 래퍼.
 
 ---
 
@@ -196,7 +248,11 @@ React 애플리케이션의 라우팅을 관리하는 표준 라이브러리입�
 }
 ```
 
-### ESLint 설정 가이드
+---
+
+## ESLint 및 Prettier 설정
+
+### ESLint 설정 가이드:
 
 ```js
 // eslint.config.js
@@ -222,9 +278,9 @@ export default tseslint.config({
 });
 ```
 
-### Prettier 설정
+### Prettier 설정:
 
-프로젝트 루트에 .prettierrc 파일을 생성하여 기본 포맷팅 규칙을 설정합니다.
+프로젝트 루트에 `.prettierrc` 파일을 생성하여 기본 포맷팅 규칙을 설정합니다.
 
 ```json
 {
@@ -235,15 +291,19 @@ export default tseslint.config({
 }
 ```
 
-### 개발 환경 설정 팁
+---
 
-#### 1. VSCode 확장 프로그램 설치
+## 개발 환경 설정 팁
 
-- ESLint
-- Prettier
-- Tailwind CSS IntelliSense
+#### VSCode 확장 프로그램 설치:
 
-#### 2. 자동 포맷팅 설정
+1. **ESLint**
+2. **Prettier**
+3. **Tailwind CSS IntelliSense**
+
+#### 자동 포맷팅 설정:
+
+VSCode에서 저장 시 자동으로 코드 포맷팅을 적용하려면 다음과 같이 `.vscode/settings.json` 파일을 수정합니다.
 
 ```json
 // .vscode/settings.json
@@ -255,3 +315,23 @@ export default tseslint.config({
   }
 }
 ```
+
+---
+
+## Bun 주요 명령어
+
+- `bun add <패키지명>`: 패키지 설치.
+- `bun remove <패키지명>`: 패키지 제거.
+- `bun install`: 모든 의존성 설치.
+- `bun dev`: 개발 서버 실행.
+- `bun run build`: 프로덕션 빌드.
+
+---
+
+## 참고사항
+
+1. 개발 서버는 기본적으로 `http://localhost:5173`에서 실행됩니다.
+2. Bun은 npm 대비 최대 **25배 빠른 설치 속도**를 제공합니다.
+3. `bun.lockb` 파일은 바이너리 형식의 lockfile로, 더 빠른 파싱 속도를 제공합니다.
+
+---

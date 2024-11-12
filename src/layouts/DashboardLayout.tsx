@@ -1,26 +1,16 @@
-import { ReactNode } from 'react';
+import React from 'react';
 
-interface DashboardLayoutProps {
-  children: ReactNode;
-}
-
-export default function DashboardLayout({ children }: DashboardLayoutProps) {
+const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className='min-h-screen bg-gray-50'>
-      <nav className='bg-white shadow-sm'>
-        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-          <div className='flex justify-between h-16'>
-            <div className='flex'>
-              <div className='flex-shrink-0 flex items-center'>
-                <h1 className='text-xl font-bold'>Dashboard</h1>
-              </div>
-            </div>
-          </div>
+    <div className='min-h-screen bg-gray-100'>
+      <header className='bg-white shadow-md py-4'>
+        <div className='container mx-auto px-4'>
+          <h1 className='text-2xl font-bold'>Dashboard</h1>
         </div>
-      </nav>
-      <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-        <div className='py-6'>{children}</div>
-      </div>
+      </header>
+      <main className='container mx-auto px-4 py-6'>{children}</main>
     </div>
   );
-}
+};
+
+export default DashboardLayout;
