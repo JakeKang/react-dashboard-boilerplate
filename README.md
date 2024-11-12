@@ -101,6 +101,8 @@ react-tailwind-dashboard/
 
 ### @headlessui/react
 
+###### 제거됨
+
 접근성이 고려된 UI 컴포넌트 라이브러리로, TailwindCSS와 완벽하게 통합됩니다.
 
 ### @heroicons/react
