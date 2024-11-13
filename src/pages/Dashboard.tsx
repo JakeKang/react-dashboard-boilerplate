@@ -1,40 +1,23 @@
-import React from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import RobotStatusTable from '@/components/RobotStatusTable';
 import DashboardLayout from '@/layouts/DashboardLayout';
+import { useState } from 'react';
 
 const Dashboard = () => {
+  const [selectKey, setSelectKey] = useState<string>('ROBOT_001');
+
+  const handleSelectKey = (key: string) => {
+    setSelectKey(key);
+  };
   return (
     <DashboardLayout>
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-        {/* 통계 요약 카드 */}
-        <Card>
-          <CardHeader>
-            <CardTitle>통계 요약</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p>총 방문자: 1,234</p>
-            <p>일일 활성 사용자: 567</p>
-            {/* 버튼 컴포넌트 */}
-            <Button onClick={() => alert('Button clicked!')}>상세 보기</Button>
-          </CardContent>
-        </Card>
-
-        {/* 매출 통계 카드 */}
-        <Card>
-          <CardHeader>
-            <CardTitle>매출 통계</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p>이번 달 매출: $12,345</p>
-            {/* 버튼 컴포넌트 */}
-            <Button
-              variant='secondary'
-              onClick={() => alert('Details clicked!')}>
-              매출 상세 보기
-            </Button>
-          </CardContent>
-        </Card>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="flex flex-col col-span-2 h-full gap-5">
+          <div className="bg-white p-2">
+            <img className="w-full object-contain" src="@/../public/robot_location.png" />
+          </div>
+          <RobotStatusTable selectKey={selectKey} onClick={handleSelectKey} />
+        </div>
+        <div className="flex flex-col flex-grow border-2 border-solid border-black h-full">CCTV display</div>
       </div>
     </DashboardLayout>
   );

@@ -91,9 +91,9 @@ import { Button } from './components/ui/button';
 
 function App() {
   return (
-    <div className='App'>
-      <h1 className='text-3xl font-bold underline'>Hello world!</h1>
-      <Button variant='primary'>Click Me!</Button>
+    <div className="App">
+      <h1 className="text-3xl font-bold underline">Hello world!</h1>
+      <Button variant="primary">Click Me!</Button>
     </div>
   );
 }
@@ -168,6 +168,12 @@ react-tailwind-dashboard/
 ---
 
 ## 사용된 패키지 설명
+
+### @headlessui/react
+
+###### 제거됨
+
+접근성이 고려된 UI 컴포넌트 라이브러리로, TailwindCSS와 완벽하게 통합됩니다.
 
 ### @heroicons/react
 
